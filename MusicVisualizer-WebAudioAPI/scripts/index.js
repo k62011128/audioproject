@@ -2,7 +2,7 @@ function $(s) {
 	return document.querySelectorAll(s);
 }
 
-var size = 512; //定义的音频数组长度
+var size = 256; //定义的音频数组长度
 var box = $('.right')[0];
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -82,7 +82,7 @@ canvas.addEventListener('mousemove', (e) => {
 })
 canvas.addEventListener('mousewheel', (e) => {
 	if (e.deltaY > 0) {
-		if (tmpr + 4 < 60) {
+		if (tmpr + 4 < 100) {
 			tmpr += 4
 		}
 	} else {
@@ -118,7 +118,7 @@ canvas.addEventListener('click', (e) => {
 					}
 				}, 250)
 			}
-		}, 20)
+		}, 25)
 
 	} else {
 		// clearInterval(interval)
@@ -142,12 +142,19 @@ canvas.addEventListener('click', (e) => {
 })
 
 function judge(x, y, r, x2, y2, r2) {
-	if (flag && (Math.abs(x - x2) * Math.abs(x - x2) + Math.abs(y - y2) * Math.abs(y - y2)) < (r + r2) * (r + r2)) {
+	if (flag && (Math.abs(x - x2) * Math.abs(x - x2) + Math.abs(y - y2) * Math.abs(y - y2)) < Math.abs(r - r2) * Math.abs(r - r2)) {
 		//这里加吸收音效
 		return 0
 	}
 	return 1
 }
+
+// function judge2(x, y, r, x2, y2, r2) {
+// 	if (Math.abs(x - x2) * Math.abs(x - x2) + Math.abs(y - y2) * Math.abs(y - y2) < Math.abs(r + r2 + 50) * Math.abs(r + r2 + 50)) {
+// 		return 1
+// 	}
+// 	return 0
+// }
 
 function run() {
 	for (let i = 0; i < size; i++) {
@@ -158,7 +165,7 @@ function run() {
 		}
 	}
 }
-
+ctx.lineWidth = 1;
 function draw(arr) {
 	ctx.clearRect(0, 0, width, height); //每次绘制时，清空上次画布内容
 	ctx.beginPath()
@@ -172,6 +179,7 @@ function draw(arr) {
 	ctx.fillStyle = lir
 	ctx.fill()
 	for (let i = 0; i < size; i++) {
+		let o = Dots[i];
 		if (Dots[i].ch === 0) {
 			Dots[i].x = eX + getRandom(-3, 3);
 			Dots[i].y = eY + getRandom(-3, 3);
@@ -184,16 +192,25 @@ function draw(arr) {
 				Dots[i].dy = getRandom(-3, 3);
 			}
 		}
-		let o = Dots[i];
+		// else if (judge2(eX, eY, tmpr, o.x, o.y, r)) {
+		// 	ctx.beginPath();
+		// 	ctx.strokeStyle = '#fff'
+		// 	ctx.moveTo(eX, eY)
+		// 	ctx.lineTo(o.X, o.Y)
+		// 	ctx.closePath()
+		// 	ctx.stroke()
+
+		// }
 		if (draw.type == "dot") {
 			ctx.beginPath(); //声明，防止各个圆之间连线起来
-			var r = 16 + (arr[i]) / 8; //圆的半径 最小10px,并且半径大小会依赖屏幕的宽度大小
+			var r = 12 + (arr[i]) / 4; //圆的半径 最小10px,并且半径大小会依赖屏幕的宽度大小
 			ctx.arc(o.x, o.y, r, 0, Math.PI * 2, true); //x,y,半径，起始角度，绘制角度，是否逆时针
 			var round = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, r); //从圆心到圆最外围
 			round.addColorStop(1, 'rgba(255,251,240,0.8)');
 			let DC = "rgba(" + getRandom(0, 255) + "," + getRandom(0, 255) + "," + getRandom(0, 255) + ",0.6)";
 			if (i % 4 === 0) {
-				round.addColorStop(0, DC);
+				// round.addColorStop(0, DC);
+				round.addColorStop(0, o.color);
 			} else {
 				round.addColorStop(0, o.color);
 			}
@@ -240,7 +257,7 @@ function draw(arr) {
 					Dots[i].dy = getRandom(-3, 3);
 				}
 			}
-
+            ctx.closePath()
 		}
 
 	}
