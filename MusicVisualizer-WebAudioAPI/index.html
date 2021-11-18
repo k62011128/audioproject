@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>loosen's MusicVisualizer</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <link rel='stylesheet' href='styles/index.css' />
+    <link rel='stylesheet' href='styles/t.css' />
+</head>
+
+<body>
+    <audio id='au' src="./audio/666.mp4"></audio>
+    <header id='hhh'>
+        <button id='btn'>
+            <p id='p1'>文件上传</p>
+            <div id="lightning">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </button>
+        <input id="loadfile" type="file">
+    </header>
+    <div class="right"></div>
+    <script type="text/javascript" src="scripts/MusicVisualizer.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script type="text/javascript">
+        var arr = document.querySelectorAll("#lightning li");
+        var ul = btn.querySelector('ul')
+        var p1 = document.getElementById('p1')
+
+        function tmp(arr) {
+            let lgh = arr.length
+            for (let i = 0; i < lgh; i++) {
+                arr[i].style.left = i * (100 / lgh) + '%';
+                arr[i].style.bottom = randomNum(-20, 10) + '%';
+                arr[i].style.animationDuration = randomNum(1, 5) + 's';
+            }
+        }
+        tmp(arr);
+
+        function randomNum(max, min) {
+            var num = Math.floor(Math.random() * (max - min + 1) + min);
+            return num;
+        }
+    </script>
+</body>
+
+</html>
