@@ -44,7 +44,6 @@ function getDots() {
 			x: DotX,
 			y: DotY,
 			color: DotColor,
-			cap: 0, //柱状上面小方块高度参数
 			dx: getRandom(-3, 3),
 			dy: getRandom(-3, 3),
 			ch: 1
